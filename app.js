@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+//Swagger
+var swaggerJsdoc = require("swagger-jsdoc");
+var swaggerUi = require("swagger-ui-express");
 
 
 var indexRouter = require('./routes/index');
@@ -11,6 +13,36 @@ var usersRouter = require('./routes/users');
 var bicicletasAPIRouter = require('./routes/api/bicicletas');
 
 var app = express();
+
+const options = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Bicicles Express API with Swagger", 
+      version: "0.1.0",
+      description:
+        "Api para la clase de DPL de DAW en Majada Marcial",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Navet21",
+        url: "https://navet21.com",
+        email: "pablosantanaftv@hotmail.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js", "./models/*.js", './controllers/api/*.js'],
+};
+
+const specs = swaggerJsdoc(options);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +61,15 @@ app.use('/users', usersRouter);
 
 app.use('/api/bicicletas', bicicletasAPIRouter); 
 
+//Documentacion
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -44,6 +85,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 
 
