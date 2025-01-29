@@ -12,6 +12,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bicicletasAPIRouter = require('./routes/api/bicicletas');
 
+var cors = require('cors');
+const { METHODS } = require('http');
 var app = express();
 
 const options = {
@@ -53,6 +55,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cors({
+  origin :'http://localhost:8080',
+  METHODS: 'GET, POST, PUT, DELETE',
+  allowedHeaders: "Content-Type, Authorization" 
+}))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
