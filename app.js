@@ -57,7 +57,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin :'http://localhost:8080',
+  origin :'https://navet21.github.io/phaserObiwan/',
   METHODS: 'GET, POST, PUT, DELETE',
   allowedHeaders: "Content-Type, Authorization" 
 }))
