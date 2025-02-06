@@ -57,7 +57,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin :'https://navet21.github.io',
+  /*' https://navet21.github.io*/
+  origin :'http://localhost:80:80',
   METHODS: 'GET, POST, PUT, DELETE',
   allowedHeaders: "Content-Type, Authorization" 
 }))
